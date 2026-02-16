@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useContext } from 'react'
 import { RotateCcw, Loader } from 'lucide-react'
 import Results from './Results'
 import { saveResult } from '../utils/resultsStorage'
+import { ThemeContext } from '../context/ThemeContext'
 
 const TypingTest = ({ mode = {} }) => {
+  const { currentTheme } = useContext(ThemeContext)
   const { duration = 60, wordLimit = null, difficulty = 'normal' } = mode
 
   const normalWords = [
@@ -324,25 +326,25 @@ const TypingTest = ({ mode = {} }) => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8 space-y-6">
-      <h3 className="text-2xl font-semibold mb-6 text-gray-800">Start Typing</h3>
+    <div className="rounded-lg shadow-lg p-8 space-y-6" style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
+      <h3 className="text-2xl font-semibold mb-6" style={{ color: 'var(--color-text)' }}>Start Typing</h3>
 
       {/* Timer and Stats */}
       {testActive && (
-        <div className="flex justify-between items-center p-4 bg-gray-100 rounded-lg">
+        <div className="flex justify-between items-center p-4 rounded-lg" style={{ backgroundColor: 'var(--color-bgSecondary)' }}>
           <div className="text-center">
-            <p className="text-sm text-gray-600">Time</p>
-            <p className="text-2xl font-bold text-purple-600">{timeElapsed}s</p>
+            <p className="text-sm" style={{ color: 'var(--color-textSecondary)' }}>Time</p>
+            <p className="text-2xl font-bold" style={{ color: 'var(--color-stat)' }}>{timeElapsed}s</p>
           </div>
           <div className="text-center">
-            <p className="text-sm text-gray-600">Words</p>
-            <p className="text-2xl font-bold text-purple-600">
+            <p className="text-sm" style={{ color: 'var(--color-textSecondary)' }}>Words</p>
+            <p className="text-2xl font-bold" style={{ color: 'var(--color-stat)' }}>
               {Math.round(userInput.trim().split(/\s+/).filter(w => w).length)}
             </p>
           </div>
           <div className="text-center">
-            <p className="text-sm text-gray-600">WPM (est.)</p>
-            <p className="text-2xl font-bold text-purple-600">
+            <p className="text-sm" style={{ color: 'var(--color-textSecondary)' }}>WPM (est.)</p>
+            <p className="text-2xl font-bold" style={{ color: 'var(--color-stat)' }}>
               {timeElapsed > 0 ? (() => {
                 let correctChars = 0
                 for (let i = 0; i < Math.min(userInput.length, sampleText.length); i++) {
@@ -561,7 +563,14 @@ const TypingTest = ({ mode = {} }) => {
         }}
         placeholder={testActive ? "Keep typing..." : "Start typing here..."}
         disabled={loading}
-        className="w-full p-4 text-lg border-2 border-gray-300 rounded-lg focus:border-purple-500 focus:outline-none disabled:bg-gray-100 disabled:cursor-not-allowed"
+        className="w-full p-4 text-lg rounded-lg focus:outline-none disabled:cursor-not-allowed"
+        style={{
+          backgroundColor: 'var(--color-bgSecondary)',
+          color: 'var(--color-text)',
+          borderColor: 'var(--color-border)',
+          borderWidth: '2px',
+          opacity: loading ? 0.6 : 1
+        }}
         rows={3}
       />
     </div>

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { ThemeContext } from '../context/ThemeContext'
 import {
   BarChart,
   Bar,
@@ -16,6 +17,7 @@ import {
 } from 'recharts'
 
 const Results = ({ results }) => {
+  const { currentTheme } = useContext(ThemeContext)
   const { wpm, accuracy, wordsTyped, timeElapsed, correctChars, totalChars, userInput, sampleText, wordMetrics = [] } = results
 
   // Data for accuracy visualization
@@ -42,34 +44,34 @@ const Results = ({ results }) => {
   const COLORS = ['#10b981', '#ef4444']
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-8 space-y-8">
-      <h2 className="text-3xl font-bold text-gray-800">Test Results</h2>
+    <div className="rounded-lg shadow-lg p-8 space-y-8" style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)' }}>
+      <h2 className="text-3xl font-bold" style={{ color: 'var(--color-text)' }}>Test Results</h2>
 
       {/* Main Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-lg">
-          <p className="text-sm text-gray-600 mb-2">Words Per Minute</p>
-          <p className="text-4xl font-bold text-purple-600">{wpm}</p>
+        <div className="p-6 rounded-lg" style={{ backgroundColor: 'var(--color-bgSecondary)', borderLeft: `4px solid var(--color-stat)` }}>
+          <p className="text-sm mb-2" style={{ color: 'var(--color-textSecondary)' }}>Words Per Minute</p>
+          <p className="text-4xl font-bold" style={{ color: 'var(--color-stat)' }}>{wpm}</p>
         </div>
-        <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-lg">
-          <p className="text-sm text-gray-600 mb-2">Accuracy</p>
-          <p className="text-4xl font-bold text-blue-600">{accuracy}%</p>
+        <div className="p-6 rounded-lg" style={{ backgroundColor: 'var(--color-bgSecondary)', borderLeft: `4px solid var(--color-accent)` }}>
+          <p className="text-sm mb-2" style={{ color: 'var(--color-textSecondary)' }}>Accuracy</p>
+          <p className="text-4xl font-bold" style={{ color: 'var(--color-accent)' }}>{accuracy}%</p>
         </div>
-        <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-lg">
-          <p className="text-sm text-gray-600 mb-2">Words Typed</p>
-          <p className="text-4xl font-bold text-green-600">{wordsTyped}</p>
+        <div className="p-6 rounded-lg" style={{ backgroundColor: 'var(--color-bgSecondary)', borderLeft: `4px solid var(--color-correct)` }}>
+          <p className="text-sm mb-2" style={{ color: 'var(--color-textSecondary)' }}>Words Typed</p>
+          <p className="text-4xl font-bold" style={{ color: 'var(--color-correct)' }}>{wordsTyped}</p>
         </div>
-        <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-lg">
-          <p className="text-sm text-gray-600 mb-2">Time</p>
-          <p className="text-4xl font-bold text-orange-600">{timeElapsed}s</p>
+        <div className="p-6 rounded-lg" style={{ backgroundColor: 'var(--color-bgSecondary)', borderLeft: `4px solid var(--color-accent)` }}>
+          <p className="text-sm mb-2" style={{ color: 'var(--color-textSecondary)' }}>Time</p>
+          <p className="text-4xl font-bold" style={{ color: 'var(--color-accent)' }}>{timeElapsed}s</p>
         </div>
       </div>
 
       {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Accuracy Pie Chart */}
-        <div className="bg-gray-50 p-6 rounded-lg">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">Character Accuracy</h3>
+        <div className="p-6 rounded-lg" style={{ backgroundColor: 'var(--color-bgSecondary)' }}>
+          <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--color-text)' }}>Character Accuracy</h3>
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
@@ -92,8 +94,8 @@ const Results = ({ results }) => {
         </div>
 
         {/* Stats Comparison Bar Chart */}
-        <div className="bg-gray-50 p-6 rounded-lg">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">Performance Metrics</h3>
+        <div className="p-6 rounded-lg" style={{ backgroundColor: 'var(--color-bgSecondary)' }}>
+          <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--color-text)' }}>Performance Metrics</h3>
           <ResponsiveContainer width="100%" height={250}>
             <BarChart
               data={[
@@ -118,8 +120,8 @@ const Results = ({ results }) => {
 
       {/* Word-by-Word WPM Trend - Full Width */}
       {wordAccuracyData.length > 0 && (
-        <div className="bg-gray-50 p-6 rounded-lg">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">WPM Trend Throughout Test</h3>
+        <div className="p-6 rounded-lg" style={{ backgroundColor: 'var(--color-bgSecondary)' }}>
+          <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--color-text)' }}>WPM Trend Throughout Test</h3>
           <ResponsiveContainer width="100%" height={350}>
             <LineChart
               data={wordAccuracyData}
@@ -139,10 +141,10 @@ const Results = ({ results }) => {
                   if (active && payload && payload.length) {
                     const data = payload[0].payload
                     return (
-                      <div className="bg-white p-3 rounded shadow-lg border border-gray-200">
-                        <p className="font-semibold text-gray-800">{data.word}</p>
-                        <p className="text-purple-600">WPM: {data.wpm}</p>
-                        <p className="text-blue-600">Accuracy: {data.accuracy}%</p>
+                      <div className="p-3 rounded shadow-lg" style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)', border: `1px solid var(--color-border)` }}>
+                        <p className="font-semibold">{data.word}</p>
+                        <p style={{ color: 'var(--color-stat)' }}>WPM: {data.wpm}</p>
+                        <p style={{ color: 'var(--color-accent)' }}>Accuracy: {data.accuracy}%</p>
                       </div>
                     )
                   }
@@ -177,52 +179,60 @@ const Results = ({ results }) => {
       )}
 
       {/* Character-by-Character Analysis */}
-      <div className="bg-gray-50 p-6 rounded-lg">
-        <h3 className="text-xl font-semibold text-gray-800 mb-4">Character-by-Character Analysis (First 30)</h3>
+      <div className="p-6 rounded-lg" style={{ backgroundColor: 'var(--color-bgSecondary)' }}>
+        <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--color-text)' }}>Character-by-Character Analysis (First 30)</h3>
         <div className="flex flex-wrap gap-2">
-          {charData.map((char, idx) => (
-            <div
-              key={idx}
-              className={`w-8 h-8 flex items-center justify-center text-xs font-bold rounded ${
-                char.correct === 1
-                  ? 'bg-green-200 text-green-800'
-                  : userInput[idx] !== undefined
-                  ? 'bg-red-200 text-red-800'
-                  : 'bg-gray-200 text-gray-800'
-              }`}
-              title={`Position ${char.position}: "${char.label}"`}
-            >
-              {char.label}
-            </div>
-          ))}
+          {charData.map((char, idx) => {
+            let bgColor, textColor
+            if (char.correct === 1) {
+              bgColor = 'var(--color-correct)'
+              textColor = currentTheme === 'light' ? '#000' : '#fff'
+            } else if (userInput[idx] !== undefined) {
+              bgColor = 'var(--color-incorrect)'
+              textColor = currentTheme === 'light' ? '#fff' : '#fff'
+            } else {
+              bgColor = 'var(--color-bgSecondary)'
+              textColor = 'var(--color-text)'
+            }
+            return (
+              <div
+                key={idx}
+                className="w-8 h-8 flex items-center justify-center text-xs font-bold rounded"
+                style={{ backgroundColor: bgColor, color: textColor }}
+                title={`Position ${char.position}: "${char.label}"`}
+              >
+                {char.label}
+              </div>
+            )
+          })}
         </div>
       </div>
 
       {/* Detailed Breakdown */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 bg-gray-50 p-6 rounded-lg">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-6 rounded-lg" style={{ backgroundColor: 'var(--color-bgSecondary)' }}>
         <div>
-          <p className="text-sm text-gray-600">Correct Characters</p>
-          <p className="text-2xl font-bold text-green-600">{correctChars}</p>
+          <p className="text-sm" style={{ color: 'var(--color-textSecondary)' }}>Correct Characters</p>
+          <p className="text-2xl font-bold" style={{ color: 'var(--color-correct)' }}>{correctChars}</p>
         </div>
         <div>
-          <p className="text-sm text-gray-600">Incorrect Characters</p>
-          <p className="text-2xl font-bold text-red-600">{totalChars - correctChars}</p>
+          <p className="text-sm" style={{ color: 'var(--color-textSecondary)' }}>Incorrect Characters</p>
+          <p className="text-2xl font-bold" style={{ color: 'var(--color-incorrect)' }}>{totalChars - correctChars}</p>
         </div>
         <div>
-          <p className="text-sm text-gray-600">Total Characters</p>
-          <p className="text-2xl font-bold text-gray-600">{totalChars}</p>
+          <p className="text-sm" style={{ color: 'var(--color-textSecondary)' }}>Total Characters</p>
+          <p className="text-2xl font-bold" style={{ color: 'var(--color-text)' }}>{totalChars}</p>
         </div>
         <div>
-          <p className="text-sm text-gray-600">Characters Typed</p>
-          <p className="text-2xl font-bold text-blue-600">{userInput.length}</p>
+          <p className="text-sm" style={{ color: 'var(--color-textSecondary)' }}>Characters Typed</p>
+          <p className="text-2xl font-bold" style={{ color: 'var(--color-accent)' }}>{userInput.length}</p>
         </div>
         <div>
-          <p className="text-sm text-gray-600">Average WPM</p>
-          <p className="text-2xl font-bold text-purple-600">{wpm}</p>
+          <p className="text-sm" style={{ color: 'var(--color-textSecondary)' }}>Average WPM</p>
+          <p className="text-2xl font-bold" style={{ color: 'var(--color-stat)' }}>{wpm}</p>
         </div>
         <div>
-          <p className="text-sm text-gray-600">Test Duration</p>
-          <p className="text-2xl font-bold text-orange-600">{timeElapsed}s</p>
+          <p className="text-sm" style={{ color: 'var(--color-textSecondary)' }}>Test Duration</p>
+          <p className="text-2xl font-bold" style={{ color: 'var(--color-accent)' }}>{timeElapsed}s</p>
         </div>
       </div>
     </div>
