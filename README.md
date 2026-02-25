@@ -8,12 +8,14 @@ A lightweight typing practice app built with React. Test your speed and accuracy
 - Mistake highlighting while typing
 - Quick reset to start a new run
 - Simple, distraction-free UI
+- Multiple typing modes
 
 ## Tech Stack
 - React
 - Vite
 - JavaScript
-- HTML/CSS
+- HTML
+- Tailwind CSS
 
 ## Getting Started (Local)
 ```bash
